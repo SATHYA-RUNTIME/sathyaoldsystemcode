@@ -1,3 +1,16 @@
+
+CREATE TABLE `hospital` (
+	`H_ID` INT(11) NOT NULL,
+	`H_NAME` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`D_ID` INT(11) NULL DEFAULT NULL,
+	`D_NAME` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`H_ID`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+
 INSERT INTO `hospital` (`H_ID`, `H_NAME`, `D_ID`, `D_NAME`) VALUES (1, 'PSG', 101, 'PRANESH');
 INSERT INTO `hospital` (`H_ID`, `H_NAME`, `D_ID`, `D_NAME`) VALUES (2, 'VPN', 102, 'DHANA');
 INSERT INTO `hospital` (`H_ID`, `H_NAME`, `D_ID`, `D_NAME`) VALUES (3, 'SSG', 103, 'GOWTHAM');
@@ -11,9 +24,24 @@ INSERT INTO `hospital` (`H_ID`, `H_NAME`, `D_ID`, `D_NAME`) VALUES (10, 'tomhos'
 
 
 
-INSERT INTO `employee` (`univercityid`, `collegeid`, `collegename`) VALUES (2, 3, 'ganga');
 
 
+
+CREATE TABLE `appointment` (
+	`APP_ID` INT(11) NOT NULL AUTO_INCREMENT,
+	`Patientid` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`APP_DATE` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`H_ID` INT(11) NULL DEFAULT NULL,
+	`D_ID` INT(11) NULL DEFAULT NULL,
+	`status` INT(11) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`APP_ID`) USING BTREE,
+	INDEX `D_ID` (`D_ID`) USING BTREE,
+	CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`D_ID`) REFERENCES `doctor`.`doctortable` (`D_ID`) ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=20
+;
 
 INSERT INTO `appointment` (`APP_ID`, `Patientid`, `APP_DATE`, `H_ID`, `D_ID`, `status`) VALUES (3, '2', '2022-11-23', 2, 101, 1);
 INSERT INTO `appointment` (`APP_ID`, `Patientid`, `APP_DATE`, `H_ID`, `D_ID`, `status`) VALUES (4, '3', '2022-11-25', 1, 104, 0);
@@ -35,6 +63,21 @@ INSERT INTO `appointment` (`APP_ID`, `Patientid`, `APP_DATE`, `H_ID`, `D_ID`, `s
 
 
 
+
+CREATE TABLE `patient` (
+	`Patientid` INT(11) NOT NULL AUTO_INCREMENT,
+	`p_name` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`passwd` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`mail` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`contact` DOUBLE NULL DEFAULT NULL,
+	`address` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`Patientid`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=18
+;
+
 INSERT INTO `patient` (`Patientid`, `p_name`, `passwd`, `mail`, `contact`, `address`) VALUES (2, 'sathya', '1234', 'sathya@abc.com', 6379808592, 'tirupur');
 INSERT INTO `patient` (`Patientid`, `p_name`, `passwd`, `mail`, `contact`, `address`) VALUES (3, 'pranesh', 'abc123', 'pranesh@abc.com', 7646425342, 'rajabalayam');
 INSERT INTO `patient` (`Patientid`, `p_name`, `passwd`, `mail`, `contact`, `address`) VALUES (4, 'tamilmani', 't1234', 'tamil@abc.com', 7723547523, 'chennai');
@@ -51,6 +94,21 @@ INSERT INTO `patient` (`Patientid`, `p_name`, `passwd`, `mail`, `contact`, `addr
 
 
 
+
+
+
+CREATE TABLE `doctortable` (
+	`D_user` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`password` INT(11) NULL DEFAULT NULL,
+	`D_ID` INT(11) NOT NULL,
+	`D_NAME` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`APP_ID` INT(11) NULL DEFAULT NULL,
+	`special` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`D_ID`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
 
 INSERT INTO `doctortable` (`D_user`, `password`, `D_ID`, `D_NAME`, `APP_ID`, `special`) VALUES ('D1001r', 12345, 101, 'PRANESH', 11, 'heart specialist');
 INSERT INTO `doctortable` (`D_user`, `password`, `D_ID`, `D_NAME`, `APP_ID`, `special`) VALUES ('D1002r', 12345, 102, 'DHANA', 12, 'Brain specialist');
